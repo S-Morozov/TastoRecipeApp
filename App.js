@@ -1,10 +1,10 @@
 import {StatusBar} from 'expo-status-bar';
-import Auth from './components/screens/auth/Auth';
+import HomeScreen from './components/screens/home/HomeScreen';
 
 const App = () => {
   return (
     <>
-      <Auth />
+      <HomeScreen />
       <StatusBar style="auto" />
     </>
   );

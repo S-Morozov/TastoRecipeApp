@@ -2,9 +2,11 @@ import React from 'react';
 import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {useFonts} from 'expo-font';
 import Hotdog from '../../../assets/png/hotdog.png';
+import Sushi from '../../../assets/png/sushi.png';
+import Burger from '../../../assets/png/burger.png';
 import PropTypes from 'prop-types';
 
-const Auth = () => {
+const HomeScreen = () => {
   const [fontsLoaded] = useFonts({
     'Inter-Bold': require('../../../assets/fonts/Inter-Bold.ttf'),
     // eslint-disable-next-line prettier/prettier
@@ -15,7 +17,7 @@ const Auth = () => {
     return null;
   }
 
-  const LoginButton = ({title, onPress}) => {
+  const EnterButton = ({title, onPress}) => {
     return (
       <TouchableOpacity onPress={onPress}>
         <View style={styles.button}>
@@ -25,23 +27,8 @@ const Auth = () => {
     );
   };
 
-  const RegisterButton = ({title, onPress}) => {
-    return (
-      <TouchableOpacity onPress={onPress}>
-        <View style={styles.button}>
-          <Text style={styles.buttonText}>{title}</Text>
-        </View>
-      </TouchableOpacity>
-    );
-  };
-
-  // Define prop types for MyButton component
-  LoginButton.propTypes = {
-    title: PropTypes.string.isRequired,
-    onPress: PropTypes.func.isRequired,
-  };
-
-  RegisterButton.propTypes = {
+  // Define prop types for EnterButton component
+  EnterButton.propTypes = {
     title: PropTypes.string.isRequired,
     onPress: PropTypes.func.isRequired,
   };
@@ -57,18 +44,19 @@ const Auth = () => {
       </View>
 
       <View style={styles.hotDogImageContainer}>
-        <Image source={Hotdog} style={styles.hotdogImage} />
+        <Image source={Hotdog} />
+      </View>
+      <View style={styles.sushiImageContainer}>
+        <Image source={Sushi} />
+      </View>
+      <View style={styles.burgerImageContainer}>
+        <Image source={Burger} />
       </View>
 
       {/* Render the LoginButton component */}
-      <LoginButton
-        title="Login"
-        onPress={() => console.log('You are loggedIn')}
-      />
-      {/* Render the RegisterButton component */}
-      <RegisterButton
-        title="register"
-        onPress={() => console.log('You are reegistered')}
+      <EnterButton
+        title="Let's go!"
+        onPress={() => console.log(" Let's go!")}
       />
     </View>
   );
@@ -127,8 +115,22 @@ const styles = StyleSheet.create({
     right: 204,
   },
 
+  sushiImageContainer: {
+    position: 'absolute',
+    top: 284,
+    width: 383,
+    height: 371,
+    flexShrink: 0,
+  },
+
+  burgerImageContainer: {
+    position: 'absolute',
+    top: 490,
+    left: 227,
+  },
+
   button: {
-    top: 300,
+    top: 250,
     width: 201,
     height: 48,
     padding: 12,
@@ -136,7 +138,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 10,
     flexShrink: 0,
-    backgroundColor: 'blue', // Change to your desired background color
+    backgroundColor: '#AF3D3D', // Change to your desired background color
     marginVertical: 5,
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -148,4 +150,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Auth;
+export default HomeScreen;
