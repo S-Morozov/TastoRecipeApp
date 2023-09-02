@@ -16,3 +16,13 @@ npm i --save-dev react-native-svg-transformer
 <!-- Props dependency -->
 
 npm install prop-types
+
+<!-- Navigation dependencies -->
+
+npm i @react-navigation/native
+
+npm i @react-navigation/bottom-tabs
+
+npm i @react-navigation/native-stack
+
+npx expo install react-native-screens react-native-safe-area-context

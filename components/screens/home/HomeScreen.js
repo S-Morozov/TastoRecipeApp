@@ -6,32 +6,16 @@ import Sushi from '../../../assets/png/sushi.png';
 import Burger from '../../../assets/png/burger.png';
 import PropTypes from 'prop-types';
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
+  // Receive navigation as a parameter
   const [fontsLoaded] = useFonts({
     'Inter-Bold': require('../../../assets/fonts/Inter-Bold.ttf'),
-    // eslint-disable-next-line prettier/prettier
-    'IndieFlower': require('.././../../assets/fonts/IndieFlower-Regular.ttf'),
+    IndieFlower: require('.././../../assets/fonts/IndieFlower-Regular.ttf'),
   });
 
   if (!fontsLoaded) {
     return null;
   }
-
-  const EnterButton = ({title, onPress}) => {
-    return (
-      <TouchableOpacity onPress={onPress}>
-        <View style={styles.button}>
-          <Text style={styles.buttonText}>{title}</Text>
-        </View>
-      </TouchableOpacity>
-    );
-  };
-
-  // Define prop types for EnterButton component
-  EnterButton.propTypes = {
-    title: PropTypes.string.isRequired,
-    onPress: PropTypes.func.isRequired,
-  };
 
   return (
     <View style={styles.container}>
@@ -53,11 +37,13 @@ const HomeScreen = () => {
         <Image source={Burger} />
       </View>
 
-      {/* Render the LoginButton component */}
-      <EnterButton
-        title="Let's go!"
-        onPress={() => console.log(" Let's go!")}
-      />
+      {/* Custom-styled TouchableOpacity */}
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('RecipeScreen')}
+      >
+        <Text style={styles.buttonText}></Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -88,7 +74,6 @@ const styles = StyleSheet.create({
     lineHeight: 48,
     letterSpacing: -0.96,
   },
-
   smallTitleContainer: {
     position: 'absolute',
     top: 230,
@@ -98,7 +83,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
   },
-
   smallTitleText: {
     textAlign: 'center',
     fontFamily: 'IndieFlower',
@@ -108,13 +92,11 @@ const styles = StyleSheet.create({
     lineHeight: 30,
     letterSpacing: -0.5,
   },
-
   hotDogImageContainer: {
     position: 'absolute',
     top: 220,
     right: 204,
   },
-
   sushiImageContainer: {
     position: 'absolute',
     top: 284,
@@ -122,15 +104,13 @@ const styles = StyleSheet.create({
     height: 371,
     flexShrink: 0,
   },
-
   burgerImageContainer: {
     position: 'absolute',
-    top: 490,
+    top: 510,
     left: 227,
   },
-
   button: {
-    top: 250,
+    top: 280,
     width: 201,
     height: 48,
     padding: 12,
@@ -146,8 +126,13 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white', // Change to your desired text color
-    fontSize: 16,
+    fontSize: 24,
+    fontFamily: 'Inter-Bold',
   },
 });
+
+HomeScreen.propTypes = {
+  navigation: PropTypes.object,
+};
 
 export default HomeScreen;
