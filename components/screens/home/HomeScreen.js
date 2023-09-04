@@ -42,7 +42,7 @@ const HomeScreen = ({navigation}) => {
         style={styles.button}
         onPress={() => navigation.navigate('RecipeScreen')}
       >
-        <Text style={styles.buttonText}></Text>
+        <Text style={styles.buttonText}>Let&apos;s go!</Text>
       </TouchableOpacity>
     </View>
   );
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   smallTitleContainer: {
     position: 'absolute',
     top: 230,
-    left: 60,
+    left: 80,
     width: 259,
     height: 33,
     flexDirection: 'column',
