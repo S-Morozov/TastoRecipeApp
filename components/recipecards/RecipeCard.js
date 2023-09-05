@@ -9,7 +9,10 @@ const RecipeCard = () => {
 
   const renderItem = ({item}) => (
     <Pressable
-      onPress={() => navigation.navigate('RecipeDetail', {item: item})}
+      onPress={() => {
+        navigation.navigate('RecipeDetailsScreen', {item: item});
+        console.log(item.name + ' you pressed');
+      }}
       style={styles.recipeCard}
     >
       <Image source={item.image} style={styles.recipeImage} />
