@@ -1,16 +1,16 @@
 import React from 'react';
 import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {useFonts} from 'expo-font';
-import Hotdog from '../../../assets/png/hotdog.png';
-import Sushi from '../../../assets/png/sushi.png';
-import Burger from '../../../assets/png/burger.png';
+import Hotdog from '../../assets/png/hotdog.png';
+import Sushi from '../../assets/png/sushi.png';
+import Burger from '../../assets/png/burger.png';
 import PropTypes from 'prop-types';
 
 const HomeScreen = ({navigation}) => {
   // Receive navigation as a parameter
   const [fontsLoaded] = useFonts({
-    'Inter-Bold': require('../../../assets/fonts/Inter-Bold.ttf'),
-    IndieFlower: require('.././../../assets/fonts/IndieFlower-Regular.ttf'),
+    'Inter-Bold': require('../../assets/fonts/Inter-Bold.ttf'),
+    IndieFlower: require('.././../assets/fonts/IndieFlower-Regular.ttf'),
   });
 
   if (!fontsLoaded) {
