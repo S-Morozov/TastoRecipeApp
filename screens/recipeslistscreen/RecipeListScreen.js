@@ -5,7 +5,7 @@ import SearchFilter from '../../components/searchfilter/SearchFilter';
 import CategoriesFilter from '../../components/categoriesfilter/CategoriesFilter';
 import RecipeCard from '../../components/recipecards/RecipeCard';
 
-const RecipeScreen = () => {
+const RecipeListScreen = () => {
   return (
     <SafeAreaView style={{flex: 1, marginHorizontal: 16}}>
       {/* render header */}
@@ -34,4 +34,4 @@ const RecipeScreen = () => {
   );
 };
 
-export default RecipeScreen;
+export default RecipeListScreen;

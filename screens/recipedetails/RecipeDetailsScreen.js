@@ -4,8 +4,19 @@ import PropTypes from 'prop-types';
 
 const RecipeDetailsScreen = ({navigation}) => {
   return (
-    <View style={{backgroundColor: 'blue', flex: 1}}>
-      <Text>Hello</Text>
+    <View style={{backgroundColor: 'fff', flex: 1}}>
+      <View
+        style={{
+          backgroundColor: '#4D8C57',
+          flex: 1,
+          marginTop: 240,
+          borderTopRadius: 56,
+          borderTopRightRadius: 56,
+          alignItems: 'center',
+        }}
+      >
+        <Text>Hello</Text>
+      </View>
     </View>
   );
 };

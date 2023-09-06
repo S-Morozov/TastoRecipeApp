@@ -40,7 +40,7 @@ const HomeScreen = ({navigation}) => {
       {/* Custom-styled TouchableOpacity */}
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('RecipeScreen')}
+        onPress={() => navigation.navigate('RecipeListScreen')}
       >
         <Text style={styles.buttonText}>Let&apos;s go!</Text>
       </TouchableOpacity>
