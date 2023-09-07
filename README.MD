@@ -26,3 +26,7 @@ npm i @react-navigation/bottom-tabs
 npm i @react-navigation/native-stack
 
 npx expo install react-native-screens react-native-safe-area-context
+
+
+<!-- Backend storage  -->
+npx expo install @react-native-async-storage/async-storage
