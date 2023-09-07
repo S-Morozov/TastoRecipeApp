@@ -42,7 +42,21 @@ const HomeScreen = ({navigation}) => {
         style={styles.button}
         onPress={() => navigation.navigate('RecipeListScreen')}
       >
-        <Text style={styles.buttonText}>Let&apos;s go!</Text>
+        <Text style={styles.buttonText}>Lets go</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.buttonLogin}
+        onPress={() => navigation.navigate('Auth')}
+      >
+        <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.buttonLogin}
+        onPress={() => navigation.navigate('Auth')}
+      >
+        <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
     </View>
   );

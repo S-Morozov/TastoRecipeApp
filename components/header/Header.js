@@ -13,7 +13,7 @@ const Header = ({title, headerIcon}) => {
 };
 
 Header.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.object,
   headerIcon: PropTypes.string.isRequired,
 };
 
