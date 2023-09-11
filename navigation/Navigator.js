@@ -1,23 +1,39 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import HomeScreen from '../screens/home/HomeScreen';
+import {MainContext} from '../contexts/MainContext';
+import HomeScreen from '../screens/Home/HomeScreen';
+import ProfileScreen from '../screens/profileScreen/ProfileScreen';
+import Login from '../screens/login/Login';
 import RecipeDetailsScreen from '../screens/recipedetails/RecipeDetailsScreen';
-import RecipeListScreen from '../screens/recipeslistscreen/RecipeListScreen';
 
 const Stack = createNativeStackNavigator();
+
+const StackScreen = () => {
+  const {isLoggedIn} = useContext(MainContext);
+  return (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      {isLoggedIn ? (
+        <>
+          <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+          <Stack.Screen name="HomeScreen" component={HomeScreen} />
+
+          <Stack.Screen
+            name="RecipeDetailsScreen"
+            component={RecipeDetailsScreen}
+          />
+        </>
+      ) : (
+        <Stack.Screen name="Login" component={Login} />
+      )}
+    </Stack.Navigator>
+  );
+};
 
 const Navigator = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="HomeScreen" component={HomeScreen} />
-        <Stack.Screen name="RecipeListScreen" component={RecipeListScreen} />
-        <Stack.Screen
-          name="RecipeDetailsScreen"
-          component={RecipeDetailsScreen}
-        />
-      </Stack.Navigator>
+      <StackScreen />
     </NavigationContainer>
   );
 };

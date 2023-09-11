@@ -27,6 +27,11 @@ npm i @react-navigation/native-stack
 
 npx expo install react-native-screens react-native-safe-area-context
 
+<!-- hook form dependency -->
+npm install react-hook-form
+
+
 
 <!-- Backend storage  -->
 npx expo install @react-native-async-storage/async-storage
+
