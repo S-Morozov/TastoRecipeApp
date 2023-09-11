@@ -1,20 +1,36 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
 import {FontAwesome} from '@expo/vector-icons';
 
-const Header = ({title, headerIcon}) => {
+const Header = ({headerUser, headerIcon, navigation}) => {
+  const handleUserIconPress = () => {
+    // Navigate to the 'ProfileScreen' when the user icon is pressed
+    navigation.navigate('ProfileScreen');
+  };
+
   return (
-    <View style={{flexDirection: 'row'}}>
-      <Text style={{flex: 1}}>{title}</Text>
-      <FontAwesome name={headerIcon} size={24} color="black" />
+    <View
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }}
+    >
+      <TouchableOpacity onPress={handleUserIconPress}>
+        <FontAwesome name={headerUser} size={32} style={{marginRight: 10}} />
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <FontAwesome name={headerIcon} size={32} color="black" />
+      </TouchableOpacity>
     </View>
   );
 };
 
 Header.propTypes = {
-  title: PropTypes.object,
+  headerUser: PropTypes.string.isRequired,
   headerIcon: PropTypes.string.isRequired,
+  navigation: PropTypes.object.isRequired,
 };
 
 export default Header;

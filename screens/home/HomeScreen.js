@@ -4,12 +4,17 @@ import Header from '../../components/header/Header';
 import SearchFilter from '../../components/searchfilter/SearchFilter';
 import CategoriesFilter from '../../components/categoriesfilter/CategoriesFilter';
 import RecipeCard from '../../components/recipecards/RecipeCard';
+import PropTypes from 'prop-types';
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   return (
     <SafeAreaView style={{flex: 1, marginHorizontal: 16}}>
       {/* render header */}
-      <Header headerText={'Hi, John '} headerIcon={'bell-o'} />
+      <Header
+        headerUser={'user-circle'}
+        navigation={navigation}
+        headerIcon={'bell-o'}
+      />
 
       {/* Search Filter */}
       <SearchFilter icon="search" placeholder={'enter your fav recipe'} />
@@ -32,6 +37,9 @@ const HomeScreen = () => {
       </View>
     </SafeAreaView>
   );
+};
+HomeScreen.propTypes = {
+  navigation: PropTypes.object.isRequired,
 };
 
 export default HomeScreen;

@@ -15,9 +15,8 @@ const StackScreen = () => {
     <Stack.Navigator screenOptions={{headerShown: false}}>
       {isLoggedIn ? (
         <>
-          <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
-
+          <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
           <Stack.Screen
             name="RecipeDetailsScreen"
             component={RecipeDetailsScreen}
