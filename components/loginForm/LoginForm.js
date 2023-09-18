@@ -4,7 +4,8 @@ import {useAuthentication} from '../../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useContext} from 'react';
 import {MainContext} from '../../contexts/MainContext';
-import {Button, Input, Text, Card} from '@rneui/themed';
+import {Button, Input, Text} from '@rneui/themed';
+import {StyleSheet, View} from 'react-native';
 
 const LoginForm = () => {
   const {postLogin} = useAuthentication();
@@ -44,8 +45,7 @@ const LoginForm = () => {
   };
 
   return (
-    <Card>
-      <Card.Title>Login Form</Card.Title>
+    <View style={styles.container}>
       <Controller
         control={control}
         rules={{
@@ -82,8 +82,15 @@ const LoginForm = () => {
       />
 
       <Button title="Submit" onPress={handleSubmit(logIn)} />
-    </Card>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    top: 250,
+    width: 200,
+  },
+});
 
 export default LoginForm;
