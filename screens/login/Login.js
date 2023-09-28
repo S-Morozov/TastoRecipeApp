@@ -52,7 +52,7 @@ const Login = ({navigation}) => {
   });
 
   if (!fontsLoaded) {
-    return null;
+    return undefined;
   }
 
   return (
@@ -112,8 +112,9 @@ const styles = StyleSheet.create({
     textShadowOffset: {width: 0, height: 4},
     textShadowRadius: 4,
     fontFamily: 'Inter-Bold',
-    fontWeight: '700',
     fontSize: 48,
+    fontWeight: '700',
+
     lineHeight: 48,
     letterSpacing: -0.96,
   },
@@ -130,15 +131,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: 'IndieFlower',
     fontSize: 24,
-    fontStyle: 'normal',
-    fontWeight: '400',
+    fontWeight: 'bold',
     lineHeight: 30,
     letterSpacing: -0.5,
   },
   hotDogImageContainer: {
     position: 'absolute',
-    top: 220,
-    right: 204,
+    top: 230,
+    right: 210,
   },
   sushiImageContainer: {
     position: 'absolute',
