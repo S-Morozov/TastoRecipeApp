@@ -1,20 +1,83 @@
-import React from 'react';
-import {View, Text} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
+import {MainContext} from '../../contexts/MainContext';
+import {useTag} from '../../hooks/ApiHooks';
+import {mediaUrl} from '../../utils/app-config';
+import {TouchableOpacity, Image} from 'react-native';
 import PropTypes from 'prop-types';
 import {FontAwesome} from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
-const Header = ({title, headerIcon}) => {
+const Header = ({headerIcon, navigation}) => {
+  const [avatar, setAvatar] = useState(null); // Initialize with null
+
+  const {getFilesByTag} = useTag();
+  const {user} = useContext(MainContext);
+
+  const handleUserIconPress = () => {
+    // Navigate to the 'ProfileScreen' when the user icon is pressed
+    navigation.navigate('Profile');
+  };
+
+  const loadAvatar = async () => {
+    try {
+      // Check if avatar URL is available in AsyncStorage
+      const storedAvatar = await AsyncStorage.getItem('userAvatar');
+
+      if (storedAvatar) {
+        setAvatar(storedAvatar);
+      } else {
+        // If not, fetch it from the API
+        const avatars = await getFilesByTag('avatar_' + user.user_id);
+        if (avatars.length > 0) {
+          const avatarUrl = mediaUrl + avatars.pop().filename;
+
+          // Store the avatar URL in AsyncStorage for future use
+          await AsyncStorage.setItem('userAvatar', avatarUrl);
+
+          setAvatar(avatarUrl);
+        } else {
+          setAvatar(null); // Set to null if no avatar found
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    loadAvatar();
+  }, []);
+
   return (
-    <View style={{flexDirection: 'row'}}>
-      <Text style={{flex: 1}}>{title}</Text>
-      <FontAwesome name={headerIcon} size={24} color="black" />
-    </View>
+    <SafeAreaView
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }}
+    >
+      <TouchableOpacity onPress={handleUserIconPress}>
+        {avatar ? (
+          <Image
+            source={{uri: avatar}}
+            style={{width: 40, height: 40, borderRadius: 40}}
+          />
+        ) : (
+          <FontAwesome name="user-circle" size={32} color="black" />
+        )}
+      </TouchableOpacity>
+
+      <TouchableOpacity>
+        <FontAwesome name={headerIcon} size={32} color="black" />
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 };
 
 Header.propTypes = {
-  title: PropTypes.object,
-  headerIcon: PropTypes.string.isRequired,
+  headerIcon: PropTypes.string,
+  navigation: PropTypes.object,
 };
 
 export default Header;
