@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   Text,
   View,
@@ -15,15 +15,18 @@ import {MainContext} from '../../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useUser} from '../../hooks/ApiHooks';
 import LoginForm from '../../components/loginForm/LoginForm';
+import RegisterForm from '../../components/registerForm/RegisterForm';
 
 import Hotdog from '../../assets/png/hotdog.png';
 import Sushi from '../../assets/png/sushi.png';
 import Burger from '../../assets/png/burger.png';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const Login = ({navigation}) => {
   // props is needed for navigation
   const {setIsLoggedIn, setUser} = useContext(MainContext);
   const {getUserByToken} = useUser();
+  const [toggleRegister, setToggleRegister] = useState(false);
 
   const checkToken = async () => {
     try {
@@ -56,15 +59,13 @@ const Login = ({navigation}) => {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.titleContainer}>
         <Text style={styles.titleText}>Tasto</Text>
       </View>
-
       <View style={styles.smallTitleContainer}>
         <Text style={styles.smallTitleText}>Share your best recipe</Text>
       </View>
-
       <View style={styles.hotDogImageContainer}>
         <Image source={Hotdog} />
       </View>
@@ -82,12 +83,26 @@ const Login = ({navigation}) => {
       >
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={styles.container}
         >
-          <LoginForm />
+          {toggleRegister ? (
+            <RegisterForm setToggleRegister={setToggleRegister} />
+          ) : (
+            <LoginForm />
+          )}
+
+          <TouchableOpacity
+            onPress={() => {
+              setToggleRegister(!toggleRegister);
+            }}
+            style={styles.togglerButton}
+          >
+            <Text style={styles.togglerButtonText}>
+              {toggleRegister ? 'or Login' : 'or Register'}
+            </Text>
+          </TouchableOpacity>
         </KeyboardAvoidingView>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -114,7 +129,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter-Bold',
     fontSize: 48,
     fontWeight: '700',
-
     lineHeight: 48,
     letterSpacing: -0.96,
   },
@@ -152,24 +166,16 @@ const styles = StyleSheet.create({
     top: 510,
     left: 227,
   },
-  buttonLogin: {
-    top: 280,
-    width: 201,
-    height: 48,
-    padding: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 10,
-    flexShrink: 0,
-    backgroundColor: '#AF3D3D', // Change to your desired background color
-    marginVertical: 5,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
+  togglerButton: {
+    position: 'absolute',
+    marginTop: 10,
+    top: 680,
+    left: 200,
+    alignSelf: 'center',
   },
-  buttonText: {
-    color: 'white', // Change to your desired text color
-    fontSize: 24,
+  togglerButtonText: {
+    color: '#545F71',
+    fontSize: 16,
     fontFamily: 'Inter-Bold',
   },
 });

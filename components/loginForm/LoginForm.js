@@ -4,8 +4,14 @@ import {useAuthentication} from '../../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useContext} from 'react';
 import {MainContext} from '../../contexts/MainContext';
-import {Button, Input, Text} from '@rneui/themed';
-import {StyleSheet, View} from 'react-native';
+
+import {
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  StyleSheet,
+} from 'react-native';
 
 const LoginForm = () => {
   const {postLogin} = useAuthentication();
@@ -21,26 +27,16 @@ const LoginForm = () => {
       password: '',
     },
   });
+
   const logIn = async (loginData) => {
     try {
       const loginResponse = await postLogin(loginData);
       console.log('login response', loginResponse);
-
-      if (loginResponse.error) {
-        // Handle API errors here
-        console.error('API Error:', loginResponse.error);
-        // Display an error message to the user
-        // You can set an error state here or use a toast/notification library
-      } else {
-        // Successful login
-        await AsyncStorage.setItem('userToken', loginResponse.token);
-        setIsLoggedIn(true);
-        setUser(loginResponse.user);
-      }
+      await AsyncStorage.setItem('userToken', loginResponse.token);
+      setIsLoggedIn(true);
+      setUser(loginResponse.user);
     } catch (error) {
-      console.error('Network Error:', error);
-      // Handle network errors here
-      // You can display a network error message to the user
+      console.error(error);
     }
   };
 
@@ -49,47 +45,75 @@ const LoginForm = () => {
       <Controller
         control={control}
         rules={{
-          required: true,
+          required: {value: true, message: 'is required'},
         }}
         render={({field: {onChange, onBlur, value}}) => (
-          <Input
+          <TextInput
             placeholder="Username"
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
             autoCapitalize="none"
+            errorMessage={errors.username?.message}
+            style={styles.input}
           />
         )}
         name="username"
       />
-      {errors.username && <Text>This is required.</Text>}
 
       <Controller
         control={control}
         rules={{
           maxLength: 100,
+          required: {value: true, message: 'is required'},
         }}
         render={({field: {onChange, onBlur, value}}) => (
-          <Input
-            placeholder="password"
+          <TextInput
+            placeholder="Password"
             secureTextEntry
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
+            errorMessage={errors.password?.message}
+            style={styles.input}
           />
         )}
         name="password"
       />
-
-      <Button title="Submit" onPress={handleSubmit(logIn)} />
+      <TouchableOpacity onPress={handleSubmit(logIn)} style={styles.button}>
+        <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    top: 250,
-    width: 200,
+    top: 500,
+    width: 300,
+    paddingHorizontal: 15,
+  },
+  input: {
+    backgroundColor: 'white',
+    borderRadius: 15,
+    height: 45,
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    marginBottom: 10,
+    borderColor: 'gray',
+    borderWidth: 1,
+  },
+  button: {
+    backgroundColor: '#AF3D3D',
+    borderRadius: 15,
+    height: 45,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 24,
+    fontWeight: 'bold',
   },
 });
 
