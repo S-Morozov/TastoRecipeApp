@@ -6,8 +6,10 @@ import {Alert} from 'react-native';
 import {PropTypes} from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../../contexts/MainContext';
+import { ScrollView,StyleSheet } from 'react-native';
+import ListItem from '../../components/listItem/ListItem';
 
-const ProfileForm = ({user}) => {
+const ProfileForm = ({user, navigation}) => {
   const {putUser, checkUsername, getUserByToken} = useUser();
   const {setUser} = useContext(MainContext);
   console.log('ProfileForm', user);
@@ -45,8 +47,9 @@ const ProfileForm = ({user}) => {
   };
 
   return (
-    <Card>
-      <Card.Title>Update Profile</Card.Title>
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
+     <Card style={styles.card}>
+     <Card.Title style={styles.cardTitle}>Update Profile</Card.Title>
       <Controller
         control={control}
         rules={{
@@ -66,6 +69,7 @@ const ProfileForm = ({user}) => {
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
+            style={styles.input}
             placeholder="Username"
             onBlur={onBlur}
             onChangeText={onChange}
@@ -83,6 +87,7 @@ const ProfileForm = ({user}) => {
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
+            style={styles.input}
             placeholder="Password"
             onBlur={onBlur}
             onChangeText={onChange}
@@ -106,6 +111,7 @@ const ProfileForm = ({user}) => {
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
+          style={styles.input}
             placeholder="Confirm password"
             onBlur={onBlur}
             onChangeText={onChange}
@@ -127,6 +133,7 @@ const ProfileForm = ({user}) => {
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
+            style={styles.input}
             placeholder="Email"
             onBlur={onBlur}
             onChangeText={onChange}
@@ -142,6 +149,7 @@ const ProfileForm = ({user}) => {
         rules={{minLength: {value: 3, message: 'min length is 3 characters'}}}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
+            style={styles.input}
             placeholder="Full name"
             onBlur={onBlur}
             onChangeText={onChange}
@@ -151,10 +159,47 @@ const ProfileForm = ({user}) => {
         )}
         name="full_name"
       />
-      <Button title="Update!" onPress={handleSubmit(update)} />
+      <Button style={styles.button} title="Update!" onPress={handleSubmit(update)} />
+      <ListItem navigation={navigation} />
     </Card>
+    
+    </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  scrollContainer: {
+    flexGrow: 1, // Allows the ScrollView to grow to the content size
+  },
+  card: {
+    padding: 20,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+  },
+  cardTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 20,
+    paddingHorizontal: 10,
+  },
+  button: {
+    backgroundColor: '#007AFF',
+    color: 'white',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+});
 
 ProfileForm.propTypes = {
   user: PropTypes.object,
