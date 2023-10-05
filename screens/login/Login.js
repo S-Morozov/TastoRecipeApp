@@ -6,8 +6,6 @@ import {
   Image,
   TouchableOpacity,
   Keyboard,
-  Platform,
-  KeyboardAvoidingView,
 } from 'react-native';
 import {useFonts} from 'expo-font';
 import PropTypes from 'prop-types';
@@ -20,7 +18,6 @@ import RegisterForm from '../../components/registerForm/RegisterForm';
 import Hotdog from '../../assets/png/hotdog.png';
 import Sushi from '../../assets/png/sushi.png';
 import Burger from '../../assets/png/burger.png';
-import {SafeAreaView} from 'react-native-safe-area-context';
 
 const Login = ({navigation}) => {
   // props is needed for navigation
@@ -59,7 +56,7 @@ const Login = ({navigation}) => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.titleContainer}>
         <Text style={styles.titleText}>Tasto</Text>
       </View>
@@ -81,36 +78,32 @@ const Login = ({navigation}) => {
         style={{flex: 1}}
         activeOpacity={1}
       >
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        >
-          {toggleRegister ? (
-            <RegisterForm setToggleRegister={setToggleRegister} />
-          ) : (
-            <LoginForm />
-          )}
+        {toggleRegister ? (
+          <RegisterForm setToggleRegister={setToggleRegister} />
+        ) : (
+          <LoginForm />
+        )}
 
-          <TouchableOpacity
-            onPress={() => {
-              setToggleRegister(!toggleRegister);
-            }}
-            style={styles.togglerButton}
-          >
-            <Text style={styles.togglerButtonText}>
-              {toggleRegister ? 'or Login' : 'or Register'}
-            </Text>
-          </TouchableOpacity>
-        </KeyboardAvoidingView>
+        <TouchableOpacity
+          onPress={() => {
+            setToggleRegister(!toggleRegister);
+          }}
+          style={styles.togglerButton}
+        >
+          <Text style={styles.togglerButtonText}>
+            {toggleRegister ? 'or Login' : 'or Register'}
+          </Text>
+        </TouchableOpacity>
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
+    marginHorizontal: 5,
+    marginTop: 40,
   },
   titleContainer: {
     position: 'absolute',
