@@ -1,11 +1,14 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {
-  Text,
   View,
   StyleSheet,
-  Image,
-  TouchableOpacity,
+  ImageBackground,
+  KeyboardAvoidingView,
+  Text,
+  TouchableWithoutFeedback,
   Keyboard,
+  Platform,
+  Pressable,
 } from 'react-native';
 import {useFonts} from 'expo-font';
 import PropTypes from 'prop-types';
@@ -15,15 +18,14 @@ import {useUser} from '../../hooks/ApiHooks';
 import LoginForm from '../../components/loginForm/LoginForm';
 import RegisterForm from '../../components/registerForm/RegisterForm';
 
-import Hotdog from '../../assets/png/hotdog.png';
-import Sushi from '../../assets/png/sushi.png';
-import Burger from '../../assets/png/burger.png';
+const backImage = require('../../assets/png/Background-new.png');
 
 const Login = ({navigation}) => {
   // props is needed for navigation
   const {setIsLoggedIn, setUser} = useContext(MainContext);
   const {getUserByToken} = useUser();
   const [toggleRegister, setToggleRegister] = useState(false);
+  const [keyboardOffset, setKeyboardOffset] = useState(0);
 
   const checkToken = async () => {
     try {
@@ -56,64 +58,63 @@ const Login = ({navigation}) => {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.titleContainer}>
-        <Text style={styles.titleText}>Tasto</Text>
-      </View>
-      <View style={styles.smallTitleContainer}>
-        <Text style={styles.smallTitleText}>Share your best recipe</Text>
-      </View>
-      <View style={styles.hotDogImageContainer}>
-        <Image source={Hotdog} />
-      </View>
-      <View style={styles.sushiImageContainer}>
-        <Image source={Sushi} />
-      </View>
-      <View style={styles.burgerImageContainer}>
-        <Image source={Burger} />
-      </View>
+    <ImageBackground source={backImage} resizeMode="cover" style={styles.image}>
+      <Text style={styles.header}>Tasto</Text>
+      <Text style={styles.headerSmall}>Share your best recipe</Text>
 
-      <TouchableOpacity
-        onPress={() => Keyboard.dismiss()}
-        style={{flex: 1}}
-        activeOpacity={1}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={keyboardOffset}
+        style={styles.container}
       >
-        {toggleRegister ? (
-          <RegisterForm setToggleRegister={setToggleRegister} />
-        ) : (
-          <LoginForm />
-        )}
-
-        <TouchableOpacity
+        <TouchableWithoutFeedback
           onPress={() => {
-            setToggleRegister(!toggleRegister);
+            Keyboard.dismiss();
+            setKeyboardOffset(0); // Reset the offset when dismissing the keyboard
           }}
-          style={styles.togglerButton}
         >
-          <Text style={styles.togglerButtonText}>
-            {toggleRegister ? 'or Login' : 'or Register'}
-          </Text>
-        </TouchableOpacity>
-      </TouchableOpacity>
-    </View>
+          <View style={styles.inner}>
+            {toggleRegister ? (
+              <RegisterForm setToggleRegister={setToggleRegister} />
+            ) : (
+              <LoginForm />
+            )}
+
+            <Pressable
+              onPress={() => {
+                setToggleRegister(!toggleRegister);
+              }}
+              style={styles.togglerButton}
+            >
+              <Text style={styles.togglerButtonText}>
+                {toggleRegister ? 'or Login' : 'or Register'}
+              </Text>
+            </Pressable>
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    marginHorizontal: 5,
-    marginTop: 40,
+    flex: 1,
   },
-  titleContainer: {
-    position: 'absolute',
-    top: 143,
-    width: 331,
-    height: 87,
-    flexDirection: 'column',
+  image: {
+    flex: 1,
     justifyContent: 'center',
   },
-  titleText: {
+  inner: {
+    bottom: 250,
+    flex: 1,
+    padding: 24,
+    marginBottom: -20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  header: {
+    top: 150,
     color: '#AF3D3D',
     textAlign: 'center',
     textShadowColor: 'rgba(0, 0, 0, 0.25)',
@@ -125,16 +126,9 @@ const styles = StyleSheet.create({
     lineHeight: 48,
     letterSpacing: -0.96,
   },
-  smallTitleContainer: {
-    position: 'absolute',
-    top: 230,
-    left: 80,
-    width: 259,
-    height: 33,
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-  smallTitleText: {
+
+  headerSmall: {
+    top: 150,
     textAlign: 'center',
     fontFamily: 'IndieFlower',
     fontSize: 24,
@@ -142,28 +136,12 @@ const styles = StyleSheet.create({
     lineHeight: 30,
     letterSpacing: -0.5,
   },
-  hotDogImageContainer: {
-    position: 'absolute',
-    top: 230,
-    right: 210,
-  },
-  sushiImageContainer: {
-    position: 'absolute',
-    top: 284,
-    width: 383,
-    height: 371,
-    flexShrink: 0,
-  },
-  burgerImageContainer: {
-    position: 'absolute',
-    top: 510,
-    left: 227,
-  },
+
   togglerButton: {
     position: 'absolute',
     marginTop: 10,
-    top: 680,
-    left: 200,
+    top: 800,
+    left: 250,
     alignSelf: 'center',
   },
   togglerButtonText: {
