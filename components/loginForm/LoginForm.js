@@ -89,7 +89,7 @@ const LoginForm = () => {
 
 const styles = StyleSheet.create({
   container: {
-    top: 500,
+    top: 400,
     width: 300,
     paddingHorizontal: 15,
   },

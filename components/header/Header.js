@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {MainContext} from '../../contexts/MainContext';
 import {useTag} from '../../hooks/ApiHooks';
 import {mediaUrl} from '../../utils/app-config';
-import {TouchableOpacity, Image} from 'react-native';
+import {TouchableOpacity, Image, Text, View, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
 import {FontAwesome} from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -10,7 +10,6 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 
 const Header = ({headerIcon, navigation}) => {
   const [avatar, setAvatar] = useState(null); // Initialize with null
-
   const {getFilesByTag} = useTag();
   const {user} = useContext(MainContext);
 
@@ -50,22 +49,18 @@ const Header = ({headerIcon, navigation}) => {
   }, []);
 
   return (
-    <SafeAreaView
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-      }}
-    >
+    <SafeAreaView style={styles.container}>
       <TouchableOpacity onPress={handleUserIconPress}>
-        {avatar ? (
-          <Image
-            source={{uri: avatar}}
-            style={{width: 40, height: 40, borderRadius: 40}}
-          />
-        ) : (
-          <FontAwesome name="user-circle" size={32} color="black" />
-        )}
+        <View style={styles.userContainer}>
+          {avatar ? (
+            <Image source={{uri: avatar}} style={styles.avatar} />
+          ) : (
+            <FontAwesome name="user-circle" size={32} color="black" />
+          )}
+          {user && user.username && (
+            <Text style={styles.username}>{`Hi, ${user.username}`}</Text>
+          )}
+        </View>
       </TouchableOpacity>
 
       <TouchableOpacity>
@@ -79,5 +74,27 @@ Header.propTypes = {
   headerIcon: PropTypes.string,
   navigation: PropTypes.object,
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  userContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  avatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 40,
+  },
+  username: {
+    marginLeft: 8,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+});
 
 export default Header;

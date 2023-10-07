@@ -142,6 +142,7 @@ const RecipeDetailsScreen = ({route, navigation}) => {
   // Map the data to the new structure
   return (
     <ScrollView
+      style={{flex: 1}}
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{paddingBottom: 30}}
     >
