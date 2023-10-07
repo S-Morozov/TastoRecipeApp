@@ -100,7 +100,7 @@ const ListItem = ({singleMedia, navigation, userId, myFilesOnly}) => {
 
 const styles = StyleSheet.create({
   recipeCard: {
-    width: '45%', // Set a fixed width for the card, adjust as needed
+    width: '45%',
     backgroundColor: colors.COLOR_LIGHT,
     shadowColor: '#000',
     shadowOffset: {width: 0, height: 4},
