@@ -8,11 +8,19 @@ const MainProvider = (props) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState({});
 
+  const setGuestUser = () => {
+    setIsLoggedIn(false);
+    setUser({
+      username: 'Guest',
+   
+    });
+  };
+
   return (
-    <MainContext.Provider value={{isLoggedIn, setIsLoggedIn, user, setUser}}>
+    <MainContext.Provider value={{isLoggedIn, setIsLoggedIn, user, setUser,setGuestUser }}>
       {props.children}
     </MainContext.Provider>
-  );
+   );
 };
 
 MainProvider.propTypes = {

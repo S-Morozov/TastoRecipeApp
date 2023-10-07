@@ -22,7 +22,7 @@ const backImage = require('../../assets/png/Background-new.png');
 
 const Login = ({navigation}) => {
   // props is needed for navigation
-  const {setIsLoggedIn, setUser} = useContext(MainContext);
+  const {setIsLoggedIn, setUser, setGuestUser } = useContext(MainContext);
   const {getUserByToken} = useUser();
   const [toggleRegister, setToggleRegister] = useState(false);
   const [keyboardOffset, setKeyboardOffset] = useState(0);
@@ -41,6 +41,14 @@ const Login = ({navigation}) => {
     } catch (error) {
       console.log('checkToken', error);
     }
+  };
+ 
+
+  const GuestBrowse = async () => {
+    console.log('GuestBrowse button pressed');
+    setGuestUser(true);
+  // todo: Navigation guestinä
+    
   };
 
   useEffect(() => {
@@ -80,7 +88,7 @@ const Login = ({navigation}) => {
               <LoginForm />
             )}
 
-            <Pressable
+            <Pressable 
               onPress={() => {
                 setToggleRegister(!toggleRegister);
               }}
@@ -90,6 +98,15 @@ const Login = ({navigation}) => {
                 {toggleRegister ? 'or Login' : 'or Register'}
               </Text>
             </Pressable>
+
+            <Pressable 
+  onPress={GuestBrowse} 
+  style={styles.browseButton}
+>
+  <Text style={styles.togglerButtonText}>
+    Browse
+  </Text>
+</Pressable>
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
@@ -139,16 +156,32 @@ const styles = StyleSheet.create({
 
   togglerButton: {
     position: 'absolute',
-    marginTop: 10,
-    top: 800,
+    backgroundColor: '#AF3D3D',
+    borderRadius: 15,
+    height: 45,
+    justifyContent: 'center',
+    marginTop: 140,
+    top: 820,
     left: 250,
     alignSelf: 'center',
   },
+  browseButton: {
+    position: 'absolute',
+    backgroundColor: '#AF3D3D',
+    borderRadius: 15,
+    height: 45,
+    justifyContent: 'center',
+    marginTop: 140,
+    top: 820,
+    left: 100,
+    alignSelf: 'center',
+  },
   togglerButtonText: {
-    color: '#545F71',
+    color: 'white',
     fontSize: 16,
     fontFamily: 'Inter-Bold',
   },
+  
 });
 
 Login.propTypes = {

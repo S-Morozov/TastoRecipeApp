@@ -42,10 +42,10 @@ const Tabscreen = () => {
 };
 
 const StackScreen = () => {
-  const {isLoggedIn} = useContext(MainContext);
+  const {isLoggedIn, setGuestUser} = useContext(MainContext);
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      {isLoggedIn ? (
+      {isLoggedIn || setGuestUser ? (
         <>
           <Stack.Screen
             name="Tabs"
