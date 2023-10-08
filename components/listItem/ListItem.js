@@ -53,13 +53,17 @@ const ListItem = ({singleMedia, navigation, userId, myFilesOnly}) => {
       style={styles.recipeCard}
     >
       <Avatar
-        size="large"
+        size="xlarge"
         source={{uri: mediaUrl + item.thumbnails.w160}}
       ></Avatar>
 
-      <Text>{item.title}</Text>
+      <Text style={{color: 'red', fontWeight: 'bold', fontSize: 16}}>
+        {item.title}
+      </Text>
       <View style={styles.recipeInfo}>
-        <Text>{item.description}</Text>
+        <Text style={{color: 'black', fontSize: 10, fontWeight: 'bold'}}>
+          {item.description}
+        </Text>
         <Text> | </Text>
         <View style={styles.rating}>
           <Text style={styles.ratingText}>{item.rating}</Text>

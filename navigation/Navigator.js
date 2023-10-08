@@ -6,9 +6,11 @@ import {MainContext} from '../contexts/MainContext';
 import Home from '../screens/Home/Home';
 import Profile from '../screens/profileScreen/Profile';
 import Login from '../screens/login/Login';
-import Upload from '../screens/upload/Upload';
 import RecipeDetailsScreen from '../screens/recipedetails/RecipeDetailsScreen';
 import {Icon} from '@rneui/themed';
+import AuthSuccessScreen from '../components/authSuccess/AuthSuccess';
+import MyFiles from '../screens/myFiles/MyFiles';
+import Modify from '../screens/modify/Modify';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -31,10 +33,10 @@ const Tabscreen = () => {
         }}
       />
       <Tab.Screen
-        name="Upload"
-        component={Upload}
+        name="My Files"
+        component={MyFiles}
         options={{
-          tabBarIcon: ({color}) => <Icon name="cloud-upload" color={color} />,
+          tabBarIcon: ({color}) => <Icon name="storage" color={color} />,
         }}
       />
     </Tab.Navigator>
@@ -43,23 +45,19 @@ const Tabscreen = () => {
 
 const StackScreen = () => {
   const {isLoggedIn} = useContext(MainContext);
+
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       {isLoggedIn ? (
         <>
-          <Stack.Screen
-            name="Tabs"
-            component={Tabscreen}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="Profile" component={Profile} />
+          <Stack.Screen name="Tabs" component={Tabscreen} />
+          <Stack.Screen name="AuthSuccess" component={AuthSuccessScreen} />
           <Stack.Screen
             name="RecipeDetailsScreen"
             component={RecipeDetailsScreen}
           />
+          <Stack.Screen name="My files" component={MyFiles} />
+          <Stack.Screen name="Modify file" component={Modify} />
         </>
       ) : (
         <Stack.Screen name="Login" component={Login} />

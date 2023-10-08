@@ -37,6 +37,7 @@ const Login = ({navigation}) => {
       if (userData) {
         setIsLoggedIn(true);
         setUser(userData);
+        navigation.navigate('AuthSuccess', {username: userData.username});
       }
     } catch (error) {
       console.log('checkToken', error);
@@ -80,16 +81,28 @@ const Login = ({navigation}) => {
               <LoginForm />
             )}
 
-            <Pressable
-              onPress={() => {
-                setToggleRegister(!toggleRegister);
-              }}
-              style={styles.togglerButton}
-            >
-              <Text style={styles.togglerButtonText}>
-                {toggleRegister ? 'or Login' : 'or Register'}
-              </Text>
-            </Pressable>
+            <View style={styles.togglerContainer}>
+              <Pressable
+                onPress={() => {
+                  setToggleRegister(!toggleRegister);
+                }}
+                style={styles.togglerButton}
+              >
+                <Text style={styles.togglerButtonText}>
+                  {toggleRegister ? (
+                    <>
+                      Already have an account?{' '}
+                      <Text style={{color: 'crimson'}}>Login</Text>
+                    </>
+                  ) : (
+                    <>
+                      Don&apos;t have an account?{' '}
+                      <Text style={{color: 'crimson'}}>Register</Text>
+                    </>
+                  )}
+                </Text>
+              </Pressable>
+            </View>
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
@@ -108,10 +121,9 @@ const styles = StyleSheet.create({
   inner: {
     bottom: 250,
     flex: 1,
-    padding: 24,
-    marginBottom: -20,
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 12,
   },
   header: {
     top: 150,
@@ -139,15 +151,20 @@ const styles = StyleSheet.create({
 
   togglerButton: {
     position: 'absolute',
-    marginTop: 10,
-    top: 800,
-    left: 250,
-    alignSelf: 'center',
+    flex: 1,
+    top: 150,
   },
   togglerButtonText: {
     color: '#545F71',
-    fontSize: 16,
+    fontSize: 12,
     fontFamily: 'Inter-Bold',
+  },
+  togglerContainer: {
+    position: 'absolute',
+    bottom: 20, // Фиксированный отступ внизу
+    left: 0,
+    right: 0,
+    alignItems: 'center', // Выравнивание по центру горизонтали
   },
 });
 

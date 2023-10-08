@@ -1,14 +1,55 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {MainContext} from '../../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Button, Card, Icon, ListItem} from '@rneui/themed';
+import {Button, Icon} from '@rneui/themed';
 import PropTypes from 'prop-types';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import Header from '../../components/header/Header';
+import {
+  SafeAreaView,
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  ScrollView,
+} from 'react-native';
 import ProfileForm from '../../components/profileForm/ProfileForm';
+import {mediaUrl} from '../../utils/app-config';
+import {useTag} from '../../hooks/ApiHooks';
 
 const Profile = ({navigation}) => {
   const {setIsLoggedIn, user} = useContext(MainContext);
+  const [avatar, setAvatar] = useState(null); // Initialize with null
+  const {getFilesByTag} = useTag();
+
+  const loadAvatar = async () => {
+    try {
+      // Check if avatar URL is available in AsyncStorage
+      const storedAvatar = await AsyncStorage.getItem('userAvatar');
+
+      if (storedAvatar) {
+        setAvatar(storedAvatar);
+      } else {
+        // If not, fetch it from the API
+        const avatars = await getFilesByTag('avatar_' + user.user_id);
+        if (avatars.length > 0) {
+          const avatarUrl = mediaUrl + avatars.pop().filename;
+
+          // Store the avatar URL in AsyncStorage for future use
+          await AsyncStorage.setItem('userAvatar', avatarUrl);
+
+          setAvatar(avatarUrl);
+        } else {
+          setAvatar(null); // Set to null if no avatar found
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    loadAvatar();
+  }, []);
+
   const logOut = async () => {
     console.log('profile, logout');
     try {
@@ -20,38 +61,35 @@ const Profile = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1, marginHorizontal: 16}}>
-      <Header />
-      <Card>
-        <Card.Title>{user.username}</Card.Title>
-        <ListItem>
-          <Icon name="email" />
-          <ListItem.Title>{user.email}</ListItem.Title>
-        </ListItem>
-        {user.full_name && (
-          <ListItem>
-            <Icon name="person" />
-            <ListItem.Title>{user.full_name}</ListItem.Title>
-          </ListItem>
-        )}
-        <ListItem>
-          <ListItem.Title>user id: {user.user_id}</ListItem.Title>
-        </ListItem>
-        <Card.Divider />
-        <Button
-          onPress={() => {
-            navigation.navigate('My files');
-          }}
-        >
-          My files
-          <Icon name="storage" color="white" />
-        </Button>
-        <Button onPress={logOut}>
-          Log out!
-          <Icon name="logout" color="white" />
-        </Button>
+    <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
+      <ScrollView style={{flex: 1, marginHorizontal: 16}}>
+        <View style={styles.avatarContainer}>
+          {avatar && <Image source={{uri: avatar}} style={styles.avatar} />}
+        </View>
+        <View style={styles.profileHeader}>
+          <Text style={styles.username}>{user.username}</Text>
+          {user.full_name && (
+            <Text style={styles.fullName}>{user.full_name}</Text>
+          )}
+          <Text style={styles.email}>{user.email}</Text>
+          <Text style={styles.userId}>user id: {user.user_id}</Text>
+        </View>
+        <View style={styles.buttonsContainer}>
+          <Button
+            onPress={() => {
+              navigation.navigate('My files');
+            }}
+          >
+            My Files
+            <Icon name="storage" color="white" />
+          </Button>
+          <Button onPress={logOut}>
+            Log Out
+            <Icon name="logout" color="white" />
+          </Button>
+        </View>
         <ProfileForm user={user} />
-      </Card>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -59,5 +97,40 @@ const Profile = ({navigation}) => {
 Profile.propTypes = {
   navigation: PropTypes.object,
 };
+
+const styles = StyleSheet.create({
+  avatarContainer: {
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  avatar: {
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+  },
+  profileHeader: {
+    marginBottom: 20,
+  },
+  username: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  fullName: {
+    fontSize: 18,
+  },
+  email: {
+    fontSize: 16,
+    color: 'gray',
+  },
+  userId: {
+    fontSize: 16,
+    color: 'gray',
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: 20,
+  },
+});
 
 export default Profile;
