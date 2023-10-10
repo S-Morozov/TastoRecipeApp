@@ -1,15 +1,24 @@
-import React from 'react';
-import {View, TextInput, StyleSheet} from 'react-native'; // Import Text and StyleSheet
+import React, {useState} from 'react';
+import {View, TextInput, StyleSheet} from 'react-native';
 import {FontAwesome} from '@expo/vector-icons';
 import PropTypes from 'prop-types';
 
-const SearchFilter = ({icon, placeholder}) => {
+const SearchFilter = ({icon, placeholder, onSearchInputChange}) => {
+  const [searchText, setSearchText] = useState('');
+
+  const handleInputChange = (text) => {
+    setSearchText(text);
+    onSearchInputChange(text); // Call the callback function with the search input value
+  };
+
   return (
     <View style={styles.searchContainer}>
       <FontAwesome name={icon} size={20} color="#f96163" />
       <TextInput
         style={{paddingLeft: 8, fontSize: 16, color: '#808080'}}
         placeholder={placeholder}
+        value={searchText}
+        onChangeText={handleInputChange}
       />
     </View>
   );
@@ -33,6 +42,7 @@ const styles = StyleSheet.create({
 SearchFilter.propTypes = {
   icon: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
+  onSearchInputChange: PropTypes.func.isRequired, // Callback function prop
 };
 
 export default SearchFilter;

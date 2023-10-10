@@ -8,7 +8,7 @@ import {mediaUrl} from '../../utils/app-config';
 import {FontAwesome} from '@expo/vector-icons';
 import {colors} from '../../Constants';
 import {Avatar} from 'react-native-elements';
-import SearchFilter from '../searchfilter/SearchFilter';
+import SearchFilter from '../../components/searchFilter/SearchFilter';
 
 const ListItem = ({singleMedia, navigation, userId, myFilesOnly}) => {
   const {deleteMedia} = useMedia();
