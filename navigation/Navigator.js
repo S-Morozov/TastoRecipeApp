@@ -11,6 +11,7 @@ import {Icon} from '@rneui/themed';
 import AuthSuccessScreen from '../components/authSuccess/AuthSuccess';
 import MyFiles from '../screens/myFiles/MyFiles';
 import Modify from '../screens/modify/Modify';
+import Upload from '../screens/upload/Upload';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -58,6 +59,7 @@ const StackScreen = () => {
           />
           <Stack.Screen name="My files" component={MyFiles} />
           <Stack.Screen name="Modify file" component={Modify} />
+          <Stack.Screen name="Upload" component={Upload} />
         </>
       ) : (
         <Stack.Screen name="Login" component={Login} />

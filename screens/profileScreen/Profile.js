@@ -77,13 +77,14 @@ const Profile = ({navigation}) => {
         <View style={styles.buttonsContainer}>
           <Button
             onPress={() => {
-              navigation.navigate('My files');
+              navigation.navigate('Upload');
             }}
+            style={styles.button}
           >
-            My Files
-            <Icon name="storage" color="white" />
+            Share recipe
+            <Icon name="save" color="white" />
           </Button>
-          <Button onPress={logOut}>
+          <Button onPress={logOut} style={styles.button}>
             Log Out
             <Icon name="logout" color="white" />
           </Button>
@@ -127,9 +128,14 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
   buttonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginVertical: 20,
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginVertical: 40,
+  },
+  button: {
+    width: 300,
+    padding: 10,
   },
 });
 

@@ -4,7 +4,7 @@ import {mediaUrl} from '../../utils/app-config';
 import {formatDate} from '../../utils/functions';
 import {Text} from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useFavourite, useUser} from '../../hooks/ApiHooks';
+import {useFavourite, useUser, useMedia} from '../../hooks/ApiHooks';
 import {MainContext} from '../../contexts/MainContext';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import {
@@ -13,7 +13,7 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
-  FlatList,
+  Alert,
 } from 'react-native';
 import {FontAwesome} from '@expo/vector-icons';
 import {StatusBar} from 'expo-status-bar';
@@ -22,8 +22,10 @@ const RecipeDetailsScreen = ({route, navigation}) => {
   const [owner, setOwner] = useState({});
   const [userLike, setUserLike] = useState(false);
   const {user} = useContext(MainContext);
+  const {update, setUpdate} = useContext(MainContext);
   const {getUserById} = useUser();
   const {postFavourite, getFavouritesById, deleteFavourite} = useFavourite();
+  const {deleteMedia} = useMedia();
   const [likes, setLikes] = useState([]);
 
   const {
@@ -34,12 +36,6 @@ const RecipeDetailsScreen = ({route, navigation}) => {
     user_id: userId,
     file_id: fileId,
   } = route.params;
-
-  // Sample data (you may fetch this from your data source)
-  const cookingTime = '30 min.';
-  const kcal = '400 kcal';
-  const ingredients = ['Pasta', 'Tomato Sauce', 'Cheese', 'Herbs'];
-  const addedBy = 'John Doe';
 
   // fetch owner info
   const fetchOwner = async () => {
@@ -109,6 +105,42 @@ const RecipeDetailsScreen = ({route, navigation}) => {
     }
   };
 
+  const deleteFile = async () => {
+    Alert.alert('Delete', `file name: ${title}, Are you sure?`, [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {
+        text: 'Ok',
+        onPress: async () => {
+          console.log('deleting file', fileId);
+          try {
+            const token = await AsyncStorage.getItem('userToken');
+            const result = await deleteMedia(fileId, token);
+            console.log('deleteFile()', result.message);
+            // update view after deleting a file
+            setUpdate(!update);
+            // Navigate back to the previous screen (or any other desired screen)
+            navigation.goBack();
+          } catch (error) {
+            console.error(error);
+          }
+        },
+      },
+    ]);
+  };
+
+  const modifyFile = async () => {
+    console.log('modifying file', fileId);
+    // Navigate to the "Modify file" screen, passing the necessary data
+    navigation.navigate('Modify file', {
+      fileId,
+      // Add other data you want to pass here
+    });
+  };
+
   useEffect(() => {
     unlockOrientation();
     fetchOwner();
@@ -134,7 +166,7 @@ const RecipeDetailsScreen = ({route, navigation}) => {
 
   return (
     <ScrollView
-      style={{flex: 1, backgroundColor: '#AF3D3D'}}
+      style={{flex: 1, backgroundColor: '#1f7a8c'}}
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{paddingBottom: 30}}
     >
@@ -172,35 +204,33 @@ const RecipeDetailsScreen = ({route, navigation}) => {
       {/* Recipe Information */}
       <View style={styles.descriptionContainer}>
         <Text style={styles.itemName}>{title}</Text>
-        <Text style={styles.itemDescription}>{description}</Text>
         <View style={styles.iconContainer}>
-          <FontAwesome name={'clock-o'} size={24} color="yellow" />
-          <Text style={styles.iconText}>{cookingTime}</Text>
-
-          <FontAwesome name={'fire'} size={24} color="yellow" />
-          <Text style={styles.iconText}>{kcal}</Text>
-
           <FontAwesome name={'calendar'} size={24} color="yellow" />
           <Text style={styles.iconText}>{formatDate(timeAdded)}</Text>
 
           <FontAwesome name={'user'} size={24} color="yellow" />
-          <Text style={styles.iconText}>{user.username}</Text>
-        </View>
+          <Text style={styles.iconText}>{owner.username}</Text>
 
-        {/* List of Ingredients */}
-        <Text style={styles.itemName}>Ingredients:</Text>
-        <View style={{flex: 1, alignContent: 'flex-start'}}>
-          <FlatList
-            data={ingredients}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({item}) => (
-              <View style={styles.ingredientItem}>
-                <Text style={styles.ingredientBullet}>•</Text>
-                <Text style={styles.ingredientDescription}>{item}</Text>
-              </View>
-            )}
-          />
+          <FontAwesome name={'thumbs-up'} size={24} color="yellow" />
+          <Text style={styles.iconText}>: {likes.length}</Text>
+          {user.user_id == userId && (
+            <>
+              <TouchableOpacity
+                style={styles.deleteButton}
+                onPress={deleteFile}
+              >
+                <FontAwesome name={'trash-o'} size={28} color="red" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.modifyButton}
+                onPress={modifyFile}
+              >
+                <FontAwesome name={'pencil'} size={28} color="red" />
+              </TouchableOpacity>
+            </>
+          )}
         </View>
+        <Text style={styles.itemDescription}>{description}</Text>
       </View>
     </ScrollView>
   );
@@ -227,7 +257,7 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   descriptionContainer: {
-    backgroundColor: '#AF3D3D',
+    backgroundColor: '#1f7a8c',
     flex: 1,
     borderTopLeftRadius: 56,
     borderTopRightRadius: 56,
@@ -263,12 +293,28 @@ const styles = StyleSheet.create({
   ingredientItem: {
     flexDirection: 'row',
     alignItems: 'flex-start',
+    shadowColor: '#000', // Shadow color
+    shadowOffset: {
+      width: 0, // Horizontal offset
+      height: 2, // Vertical offset
+    },
+    shadowOpacity: 0.25, // Opacity of the shadow
+    shadowRadius: 3.84, // Radius of the shadow
+    elevation: 5, // Elevation for Android
   },
   ingredientBullet: {
     fontSize: 20,
     color: 'white',
     marginRight: 10,
     marginTop: 2,
+    shadowColor: '#000', // Shadow color
+    shadowOffset: {
+      width: 0, // Horizontal offset
+      height: 2, // Vertical offset
+    },
+    shadowOpacity: 0.25, // Opacity of the shadow
+    shadowRadius: 3.84, // Radius of the shadow
+    elevation: 5, // Elevation for Android
   },
   ingredientDescription: {
     fontSize: 20,
@@ -276,6 +322,16 @@ const styles = StyleSheet.create({
     color: 'white',
     marginVertical: 5,
   },
+  goBackButton: {
+    marginRight: 10,
+  },
+  heartButton: {
+    marginRight: 10,
+  },
+  deleteButton: {
+    marginRight: 10,
+  },
+  modifyButton: {},
 });
 
 RecipeDetailsScreen.propTypes = {

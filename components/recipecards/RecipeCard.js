@@ -21,7 +21,7 @@ const RecipeCard = () => {
         <Text>{item.time}</Text>
         <Text> | </Text>
         <View style={styles.rating}>
-          <Text style={styles.ratingText}>{item.rating}</Text>
+          <Text style={styles.ratingText}>{item.likes}</Text>
           <FontAwesome name="star" size={16} color={colors.COLOR_PRIMARY} />
         </View>
       </View>

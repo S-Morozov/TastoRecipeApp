@@ -1,18 +1,28 @@
 import PropTypes from 'prop-types';
 import {Alert, View, StyleSheet, Text, Pressable, FlatList} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useContext} from 'react';
+import {useContext, useState} from 'react';
 import {MainContext} from '../../contexts/MainContext';
 import {useMedia} from '../../hooks/ApiHooks';
 import {mediaUrl} from '../../utils/app-config';
 import {FontAwesome} from '@expo/vector-icons';
 import {colors} from '../../Constants';
 import {Avatar} from 'react-native-elements';
+import SearchFilter from '../searchfilter/SearchFilter';
 
 const ListItem = ({singleMedia, navigation, userId, myFilesOnly}) => {
   const {deleteMedia} = useMedia();
   const {update, setUpdate} = useContext(MainContext);
   const {mediaArray} = useMedia(update, myFilesOnly);
+  const [searchInput, setSearchInput] = useState('');
+
+  const handleSearchInputChange = (text) => {
+    setSearchInput(text);
+  };
+
+  const filteredMediaArray = mediaArray.filter((item) =>
+    item.title.toLowerCase().includes(searchInput.toLowerCase()),
+  );
 
   const deleteFile = async () => {
     Alert.alert('Delete', `file id: ${singleMedia.file_id}, Are you sure?`, [
@@ -61,12 +71,9 @@ const ListItem = ({singleMedia, navigation, userId, myFilesOnly}) => {
         {item.title}
       </Text>
       <View style={styles.recipeInfo}>
-        <Text style={{color: 'black', fontSize: 10, fontWeight: 'bold'}}>
-          {item.description}
-        </Text>
         <Text> | </Text>
         <View style={styles.rating}>
-          <Text style={styles.ratingText}>{item.rating}</Text>
+          <Text style={styles.ratingText}>{item.likes}</Text>
           <FontAwesome name="star" size={16} color={colors.COLOR_PRIMARY} />
         </View>
       </View>
@@ -91,8 +98,13 @@ const ListItem = ({singleMedia, navigation, userId, myFilesOnly}) => {
 
   return (
     <View>
+      <SearchFilter
+        icon="search"
+        placeholder="Search"
+        onSearchInputChange={handleSearchInputChange}
+      />
       <FlatList
-        data={mediaArray}
+        data={filteredMediaArray}
         renderItem={renderItem}
         numColumns={2}
         columnWrapperStyle={styles.columnWrapper}
