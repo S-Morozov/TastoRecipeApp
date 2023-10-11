@@ -4,6 +4,7 @@ import {useAuthentication} from '../../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useContext} from 'react';
 import {MainContext} from '../../contexts/MainContext';
+import {useNavigation} from '@react-navigation/native';
 
 import {
   Text,
@@ -16,6 +17,7 @@ import {
 const LoginForm = () => {
   const {postLogin} = useAuthentication();
   const {setIsLoggedIn, setUser} = useContext(MainContext);
+  const navigation = useNavigation(); // Get the navigation object
 
   const {
     control,
@@ -35,6 +37,7 @@ const LoginForm = () => {
       await AsyncStorage.setItem('userToken', loginResponse.token);
       setIsLoggedIn(true);
       setUser(loginResponse.user);
+      navigation.navigate('AuthSuccess', {username: loginData.username});
     } catch (error) {
       console.error(error);
     }
@@ -89,6 +92,7 @@ const LoginForm = () => {
 
 const styles = StyleSheet.create({
   container: {
+    marginVertical: 20,
     top: 400,
     width: 300,
     paddingHorizontal: 15,

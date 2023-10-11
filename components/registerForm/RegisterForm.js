@@ -124,6 +124,7 @@ const RegisterForm = () => {
 };
 const styles = StyleSheet.create({
   container: {
+    marginVertical: 20,
     top: 400,
     width: 300,
     paddingHorizontal: 15,
