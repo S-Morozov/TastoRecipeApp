@@ -94,7 +94,7 @@ const Login = ({navigation}) => {
                     </>
                   ) : (
                     <>
-                      Don&apost have an account?{' '}
+                      Don&apos;t have an account?{' '}
                       {/* Typo: Changed "Don't" to "Don't" */}
                       <Text style={{color: 'crimson'}}>Register</Text>
                     </>
