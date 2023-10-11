@@ -108,6 +108,7 @@ const ListItem = ({singleMedia, navigation, userId, myFilesOnly}) => {
         numColumns={2}
         columnWrapperStyle={styles.columnWrapper}
         showsVerticalScrollIndicator={false}
+        keyExtractor={(item) => item.file_id.toString()} // Use a unique key
       />
     </View>
   );
