@@ -32,7 +32,7 @@ const Header = ({headerIcon, navigation}) => {
           const avatarUrl = mediaUrl + avatars.pop().filename;
 
           // Store the avatar URL in AsyncStorage for future use
-          await AsyncStorage.setItem('userAvatar', avatarUrl);
+          await AsyncStorage.setItem('userAvatar_${user.user_id}', avatarUrl);
 
           setAvatar(avatarUrl);
         } else {
@@ -77,6 +77,7 @@ Header.propTypes = {
 
 const styles = StyleSheet.create({
   container: {
+    top: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

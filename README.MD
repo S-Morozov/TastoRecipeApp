@@ -1,3 +1,13 @@
+
+# Project Title
+
+Tasto recipe sharing app for everyone who love cooking and experiments on the kitchen.
+
+
+
+
+## Installation
+
 <!-- Clone repository: -->
 git clone https://github.com/S-Morozov/TastoRecipeApp.git
 
@@ -34,4 +44,25 @@ npm install react-hook-form
 
 <!-- Backend storage  -->
 npx expo install @react-native-async-storage/async-storage
+
+
+## Screenshots
+
+![Login](https://github.com/S-Morozov/TastoRecipeApp/blob/main/screensTasto/1.png?raw=true)
+
+![Loader animation](https://github.com/S-Morozov/TastoRecipeApp/blob/main/screensTasto/2.png?raw=true)
+
+
+![Home page](https://github.com/S-Morozov/TastoRecipeApp/blob/main/screensTasto/3.png?raw=true)
+
+![Recipe details](https://github.com/S-Morozov/TastoRecipeApp/blob/main/screensTasto/4.png?raw=true)
+
+
+
+
+## Authors
+
+Semen Morozov
+
+Petrus Kajastie
 

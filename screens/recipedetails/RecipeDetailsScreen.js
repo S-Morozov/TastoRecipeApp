@@ -329,9 +329,11 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   deleteButton: {
-    marginRight: 10,
+    marginHorizontal: 30,
   },
-  modifyButton: {},
+  modifyButton: {
+    marginHorizontal: 30,
+  },
 });
 
 RecipeDetailsScreen.propTypes = {

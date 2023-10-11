@@ -54,7 +54,7 @@ const ListItem = ({singleMedia, navigation, userId, myFilesOnly}) => {
     navigation.navigate('Modify file', singleMedia);
   };
 
-  const renderItem = ({item}) => (
+  const renderItem = ({item, likes}) => (
     <Pressable
       onPress={() => {
         console.log('touched!', item.title);

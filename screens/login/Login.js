@@ -5,10 +5,10 @@ import {
   ImageBackground,
   KeyboardAvoidingView,
   Text,
-  TouchableWithoutFeedback,
-  Keyboard,
   Platform,
   Pressable,
+  TouchableWithoutFeedback, // Import TouchableWithoutFeedback
+  Keyboard,
 } from 'react-native';
 import {useFonts} from 'expo-font';
 import PropTypes from 'prop-types';
@@ -21,26 +21,28 @@ import RegisterForm from '../../components/registerForm/RegisterForm';
 const backImage = require('../../assets/png/Background-new.png');
 
 const Login = ({navigation}) => {
-  // props is needed for navigation
   const {setIsLoggedIn, setUser} = useContext(MainContext);
   const {getUserByToken} = useUser();
   const [toggleRegister, setToggleRegister] = useState(false);
-  const [keyboardOffset, setKeyboardOffset] = useState(0);
 
   const checkToken = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');
-      // hardcoded token validation
-      const userData = await getUserByToken(token);
-      console.log('token', token);
-      console.log('userdata', userData);
-      if (userData) {
-        setIsLoggedIn(true);
-        setUser(userData);
-        navigation.navigate('AuthSuccess', {username: userData.username});
+      console.log('Token:', token);
+      if (token) {
+        const userData = await getUserByToken(token);
+        console.log('User Data:', userData);
+        if (userData) {
+          console.log('Navigating to AuthSuccess');
+          setIsLoggedIn(true);
+          setUser(userData);
+        }
+      } else {
+        setIsLoggedIn(false);
       }
     } catch (error) {
-      console.log('checkToken', error);
+      console.log('checkToken Error:', error);
+      setIsLoggedIn(false);
     }
   };
 
@@ -48,39 +50,35 @@ const Login = ({navigation}) => {
     checkToken();
   }, []);
 
-  // Fonts
   const [fontsLoaded] = useFonts({
     'Inter-Bold': require('../../assets/fonts/Inter-Bold.ttf'),
     IndieFlower: require('../../assets/fonts/IndieFlower-Regular.ttf'),
   });
 
   if (!fontsLoaded) {
-    return undefined;
+    return null;
   }
+
+  const handleKeyboardDismiss = () => {
+    Keyboard.dismiss();
+  };
 
   return (
     <ImageBackground source={backImage} resizeMode="cover" style={styles.image}>
-      <Text style={styles.header}>Tasto</Text>
-      <Text style={styles.headerSmall}>Share your best recipe</Text>
-
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={keyboardOffset}
+        keyboardVerticalOffset={150}
         style={styles.container}
       >
-        <TouchableWithoutFeedback
-          onPress={() => {
-            Keyboard.dismiss();
-            setKeyboardOffset(0); // Reset the offset when dismissing the keyboard
-          }}
-        >
+        <Text style={styles.header}>Tasto</Text>
+        <Text style={styles.headerSmall}>Share your best recipe</Text>
+        <TouchableWithoutFeedback onPress={handleKeyboardDismiss}>
           <View style={styles.inner}>
             {toggleRegister ? (
               <RegisterForm setToggleRegister={setToggleRegister} />
             ) : (
               <LoginForm />
             )}
-
             <View style={styles.togglerContainer}>
               <Pressable
                 onPress={() => {
@@ -97,6 +95,7 @@ const Login = ({navigation}) => {
                   ) : (
                     <>
                       Don&apos;t have an account?{' '}
+                      {/* Typo: Changed "Don't" to "Don't" */}
                       <Text style={{color: 'crimson'}}>Register</Text>
                     </>
                   )}
@@ -119,7 +118,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   inner: {
-    bottom: 250,
+    bottom: 200,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -138,7 +137,6 @@ const styles = StyleSheet.create({
     lineHeight: 48,
     letterSpacing: -0.96,
   },
-
   headerSmall: {
     top: 150,
     textAlign: 'center',
@@ -148,11 +146,9 @@ const styles = StyleSheet.create({
     lineHeight: 30,
     letterSpacing: -0.5,
   },
-
   togglerButton: {
     position: 'absolute',
     flex: 1,
-    top: 150,
   },
   togglerButtonText: {
     color: '#545F71',
@@ -160,11 +156,10 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter-Bold',
   },
   togglerContainer: {
-    position: 'absolute',
-    bottom: 20, // Фиксированный отступ внизу
+    top: 400,
     left: 0,
     right: 0,
-    alignItems: 'center', // Выравнивание по центру горизонтали
+    alignItems: 'center',
   },
 });
 

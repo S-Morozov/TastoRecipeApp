@@ -1,7 +1,7 @@
 import React, {useContext, useState, useEffect} from 'react';
 import {MainContext} from '../../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Button, Icon} from '@rneui/themed';
+import {Icon} from '@rneui/themed';
 import PropTypes from 'prop-types';
 import {
   SafeAreaView,
@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Image,
   ScrollView,
+  Pressable,
 } from 'react-native';
 import ProfileForm from '../../components/profileForm/ProfileForm';
 import {mediaUrl} from '../../utils/app-config';
@@ -75,19 +76,40 @@ const Profile = ({navigation}) => {
           <Text style={styles.userId}>user id: {user.user_id}</Text>
         </View>
         <View style={styles.buttonsContainer}>
-          <Button
+          <Pressable
             onPress={() => {
               navigation.navigate('Upload');
             }}
-            style={styles.button}
+            style={styles.buttonShare}
           >
-            Share recipe
+            <Text
+              style={{
+                fontSize: 16,
+                color: 'white',
+                textAlign: 'center',
+                fontWeight: 'bold',
+                paddingBottom: 5,
+              }}
+            >
+              Share recipe
+            </Text>
             <Icon name="save" color="white" />
-          </Button>
-          <Button onPress={logOut} style={styles.button}>
-            Log Out
+          </Pressable>
+          <Pressable onPress={logOut} style={styles.button}>
+            <Text
+              style={{
+                fontSize: 16,
+                color: 'white',
+                textAlign: 'center',
+                fontWeight: 'bold',
+                paddingBottom: 5,
+              }}
+            >
+              {' '}
+              Log Out
+            </Text>
             <Icon name="logout" color="white" />
-          </Button>
+          </Pressable>
         </View>
         <ProfileForm user={user} />
       </ScrollView>
@@ -133,8 +155,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 40,
   },
+  buttonShare: {
+    backgroundColor: 'red',
+    borderRadius: 20,
+    width: 200,
+    height: 70,
+    paddingHorizontal: 10,
+    padding: 10,
+    marginBottom: 10,
+  },
   button: {
-    width: 300,
+    backgroundColor: 'gray',
+    borderRadius: 20,
+    width: 200,
+    height: 70,
+    paddingHorizontal: 10,
     padding: 10,
   },
 });

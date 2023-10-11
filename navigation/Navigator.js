@@ -53,6 +53,7 @@ const StackScreen = () => {
         <>
           <Stack.Screen name="Tabs" component={Tabscreen} />
           <Stack.Screen name="AuthSuccess" component={AuthSuccessScreen} />
+
           <Stack.Screen
             name="RecipeDetailsScreen"
             component={RecipeDetailsScreen}
