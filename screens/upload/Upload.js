@@ -106,7 +106,7 @@ const Upload = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{marginBottom: 100}}>
       <TouchableOpacity
         style={styles.goBackButton}
         onPress={() => navigation.goBack()}
@@ -187,14 +187,14 @@ const Upload = ({navigation}) => {
             <Button
               title="Choose Media"
               onPress={pickImage}
-              style={{marginBottom: 10}}
+              style={{margin: 10}}
             />
 
             <Button
               title="Reset"
               color={'error'}
               onPress={resetForm}
-              style={{marginBottom: 10}}
+              style={{margin: 10}}
             />
             <Button
               loading={loading}
@@ -203,7 +203,7 @@ const Upload = ({navigation}) => {
               }
               title="submit"
               onPress={handleSubmit(upload)}
-              style={{marginBottom: 10}}
+              style={{margin: 10}}
             />
           </View>
         </ScrollView>
