@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import {useUser} from '../../hooks/ApiHooks';
 import {Controller, useForm} from 'react-hook-form';
 import {Card, Button, Input} from '@rneui/themed';
-import {Alert} from 'react-native';
+import {Alert, StyleSheet} from 'react-native';
 import {PropTypes} from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../../contexts/MainContext';
@@ -45,8 +45,8 @@ const ProfileForm = ({user}) => {
   };
 
   return (
-    <Card>
-      <Card.Title>Update Profile</Card.Title>
+    <Card style={styles.card}>
+      <Card.Title style={styles.cardTitle}>Update Profile</Card.Title>
       <Controller
         control={control}
         rules={{
@@ -66,6 +66,7 @@ const ProfileForm = ({user}) => {
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
+          style={styles.input}
             placeholder="Username"
             onBlur={onBlur}
             onChangeText={onChange}
@@ -83,6 +84,7 @@ const ProfileForm = ({user}) => {
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
+          style={styles.input}
             placeholder="Password"
             onBlur={onBlur}
             onChangeText={onChange}
@@ -106,6 +108,7 @@ const ProfileForm = ({user}) => {
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
+          style={styles.input}
             placeholder="Confirm password"
             onBlur={onBlur}
             onChangeText={onChange}
@@ -127,6 +130,7 @@ const ProfileForm = ({user}) => {
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
+          style={styles.input}
             placeholder="Email"
             onBlur={onBlur}
             onChangeText={onChange}
@@ -142,6 +146,7 @@ const ProfileForm = ({user}) => {
         rules={{minLength: {value: 3, message: 'min length is 3 characters'}}}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
+          style={styles.input}
             placeholder="Full name"
             onBlur={onBlur}
             onChangeText={onChange}
@@ -155,6 +160,27 @@ const ProfileForm = ({user}) => {
     </Card>
   );
 };
+const styles = StyleSheet.create({
+  
+  card: {
+    padding: 20,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+  },
+  cardTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 20,
+    paddingHorizontal: 10,
+  },
+});
+ 
 
 ProfileForm.propTypes = {
   user: PropTypes.object,

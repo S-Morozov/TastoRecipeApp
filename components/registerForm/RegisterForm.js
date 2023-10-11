@@ -117,7 +117,7 @@ const RegisterForm = () => {
       />
       {errors.password && <Text>Password (min. 5 chars) is required .</Text>}
       <TouchableOpacity onPress={handleSubmit(register)} style={styles.button}>
-        <Text style={styles.buttonText}>register</Text>
+        <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
     </View>
   );

@@ -68,12 +68,12 @@ const Profile = ({navigation}) => {
           {avatar && <Image source={{uri: avatar}} style={styles.avatar} />}
         </View>
         <View style={styles.profileHeader}>
-          <Text style={styles.username}>{user.username}</Text>
+          <Text style={styles.username}>Username: {user.username}</Text>
           {user.full_name && (
-            <Text style={styles.fullName}>{user.full_name}</Text>
+            <Text style={styles.fullName}>Full name: {user.full_name}</Text>
           )}
-          <Text style={styles.email}>{user.email}</Text>
-          <Text style={styles.userId}>user id: {user.user_id}</Text>
+          <Text style={styles.email}>Email: {user.email}</Text>
+          <Text style={styles.userId}>User id: {user.user_id}</Text>
         </View>
         <View style={styles.buttonsContainer}>
           <Pressable
@@ -137,17 +137,30 @@ const styles = StyleSheet.create({
   username: {
     fontSize: 24,
     fontWeight: 'bold',
+    marginBottom: 20,
+    paddingHorizontal: 10,
+    textAlign: 'center',
+
   },
   fullName: {
     fontSize: 18,
+    marginBottom: 20,
+    paddingHorizontal: 10,
+    textAlign: 'center',
   },
   email: {
     fontSize: 16,
     color: 'gray',
+    marginBottom: 20,
+    paddingHorizontal: 10,
+    textAlign: 'center',
   },
   userId: {
     fontSize: 16,
     color: 'gray',
+    marginBottom: 20,
+    paddingHorizontal: 10,
+    textAlign: 'center',
   },
   buttonsContainer: {
     flex: 1,
