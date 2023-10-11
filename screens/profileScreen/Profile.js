@@ -1,7 +1,7 @@
 import React, {useContext, useState, useEffect} from 'react';
 import {MainContext} from '../../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Icon} from '@rneui/themed';
+import {Icon, Card} from '@rneui/themed';
 import PropTypes from 'prop-types';
 import {
   SafeAreaView,
@@ -67,6 +67,8 @@ const Profile = ({navigation}) => {
         <View style={styles.avatarContainer}>
           {avatar && <Image source={{uri: avatar}} style={styles.avatar} />}
         </View>
+        <Card style={styles.card}>
+        <Card.Title style={styles.cardTitle}>Profile Info</Card.Title>
         <View style={styles.profileHeader}>
           <Text style={styles.username}>Username: {user.username}</Text>
           {user.full_name && (
@@ -75,6 +77,7 @@ const Profile = ({navigation}) => {
           <Text style={styles.email}>Email: {user.email}</Text>
           <Text style={styles.userId}>User id: {user.user_id}</Text>
         </View>
+        </Card>
         <View style={styles.buttonsContainer}>
           <Pressable
             onPress={() => {
@@ -91,7 +94,7 @@ const Profile = ({navigation}) => {
                 paddingBottom: 5,
               }}
             >
-              Share recipe
+              Share Recipe
             </Text>
             <Icon name="save" color="white" />
           </Pressable>
@@ -122,6 +125,17 @@ Profile.propTypes = {
 };
 
 const styles = StyleSheet.create({
+  card: {
+    padding: 20,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+  },
+  cardTitle: {
+    fontSize: 30,
+    color: 'black',
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
   avatarContainer: {
     alignItems: 'center',
     marginTop: 20,
