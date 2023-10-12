@@ -1,7 +1,7 @@
 import React from 'react';
 import ListItem from '../../components/listItem/ListItem';
 import PropTypes from 'prop-types';
-import {View, Text} from 'react-native'; // Import necessary components
+import {View, Text, ScrollView} from 'react-native'; // Import necessary components
 import Header from '../../components/header/Header';
 
 const Home = ({route, navigation}) => {
@@ -10,6 +10,7 @@ const Home = ({route, navigation}) => {
   console.log('Avatar in Profile:', avatar.name);
 
   return (
+    <ScrollView style={{flex: 1, marginHorizontal: 16}}>
     <View style={{flex: 1, marginHorizontal: 16}}>
       {/* Header */}
       <Header headerIcon="bell-o" navigation={navigation} />
@@ -21,6 +22,7 @@ const Home = ({route, navigation}) => {
         <ListItem navigation={navigation} />
       </View>
     </View>
+    </ScrollView>
   );
 };
 
