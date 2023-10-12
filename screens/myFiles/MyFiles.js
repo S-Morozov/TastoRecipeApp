@@ -2,11 +2,12 @@ import React from 'react';
 import ListItem from '../../components/listItem/ListItem';
 import PropTypes from 'prop-types';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
 import {FontAwesome} from '@expo/vector-icons';
 
 const MyFiles = ({navigation}) => {
   return (
+    <ScrollView style={{flex: 1, marginHorizontal: 16}}>
     <SafeAreaView>
       <TouchableOpacity style={{left: 10}} onPress={() => navigation.goBack()}>
         <FontAwesome name={'arrow-circle-left'} size={28} color="red" />
@@ -18,6 +19,7 @@ const MyFiles = ({navigation}) => {
         <ListItem navigation={navigation} myFilesOnly={true} />
       </View>
     </SafeAreaView>
+     </ScrollView>
   );
 };
 
